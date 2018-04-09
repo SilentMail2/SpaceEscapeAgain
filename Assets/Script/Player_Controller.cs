@@ -28,8 +28,12 @@ public class Player_Controller : MonoBehaviour {
     public GameObject highscoreObject;
     public bool boostMode = false;
     public float boosttime;
-    // Use this for initialization
+	public GameObject Menu;
+	public MenuScript menu;
+	// Use this for initialization
     void Start() {
+		menu = Menu.GetComponent<MenuScript> ();
+		highscore = menu.highScore;
         gun = GameObject.FindGameObjectWithTag("Player Gun");
         PlayerBody = GetComponent<Rigidbody>();
         MaxHealth = health;
@@ -92,10 +96,10 @@ public class Player_Controller : MonoBehaviour {
             TakeDamage(10);
         }
         if (other.gameObject.tag == "Health") {
-            TakeDamage(-5);
+            TakeDamage(-25);
         }
         if (other.gameObject.tag == "Fuel") {
-            GiveFuel(50);
+            GiveFuel(100);
         }
     }
     public void OnTriggerEnter(Collider other)
@@ -140,15 +144,16 @@ public class Player_Controller : MonoBehaviour {
         return fuel / MaxFuel;
     }
     public void DieScript()
-    {
-        Add.SetActive(true);
-        highscoreObject.SetActive(true);
-        if (Score > highscore)
-        {
-            highscore = Score;
-            highscoreText.text = highscore.ToString("F0");
-        }
-        Destroy(this.gameObject);
-        Debug.Log("Game Over");
-    }
+	{
+		if (player.activeSelf == (true)) {
+			Add.SetActive (true);
+			highscoreObject.SetActive (true);
+			if (Score > highscore) {
+				highscore = Score;
+				highscoreText.text = highscore.ToString ("F0");
+			}
+			player.SetActive (false);
+			Debug.Log ("Game Over");
+		}
+	}
 }

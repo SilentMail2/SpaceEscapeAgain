@@ -40,7 +40,7 @@ public class MonsterControl : MonoBehaviour {
 				boosttime = 20;
 			}*/
 		}
-		if (distanceToPlayer <= 0) {
+		if ((distanceToPlayer <= 0)) {
             playerValues.DieScript();
 			Debug.Log ("GameOver");
 		}
