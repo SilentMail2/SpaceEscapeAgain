@@ -47,6 +47,7 @@ public class Player_Controller : MonoBehaviour {
         score.text = Score.ToString();
         highscoreObject.SetActive(false);
 		missleText.text = missleNo.ToString ();
+		Time.timeScale = 0;
     }
     // Update is called once per frame
     void Update() {
