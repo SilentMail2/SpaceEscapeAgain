@@ -20,6 +20,7 @@ public class Player_Controller : MonoBehaviour {
     public float highscore = 0;
     //public Component Monster = GetComponent<Enemy_Controller>();
     Rigidbody PlayerBody;
+	public GameObject Monster;
 	public GameObject Player;
     public float movementDir;
     public GameObject player;
@@ -29,7 +30,11 @@ public class Player_Controller : MonoBehaviour {
     public bool boostMode = false;
     public float boosttime;
 	public GameObject Menu;
+	public GameObject[] Enemies;
 	public MenuScript menu;
+	public ParticleSystem Missle;
+	public int missleNo;
+	public Text missleText;
 	// Use this for initialization
     void Start() {
 		menu = Menu.GetComponent<MenuScript> ();
@@ -41,9 +46,11 @@ public class Player_Controller : MonoBehaviour {
         healthBar.value = CalculateHealth();
         score.text = Score.ToString();
         highscoreObject.SetActive(false);
+		missleText.text = missleNo.ToString ();
     }
     // Update is called once per frame
     void Update() {
+		missleText.text = missleNo.ToString ();
         //movementDir = CrossPlatformInputManager.GetAxis ("Vertical");
         PlayerBody.velocity = new Vector3(0, movementDir * player_Speed, 0);
         //var y = movementDir * Time.deltaTime * player_Speed;
@@ -72,6 +79,9 @@ public class Player_Controller : MonoBehaviour {
         if (Input.GetKeyDown("a")) {
             FireLaser();
         }
+		if (Input.GetKeyDown("d")) {
+			FireMissle ();
+		}
         fuel = (fuel - (1 / (health / 100)));
         fuelBar.value = CalculateFuel();
         healthBar.value = CalculateHealth();
@@ -87,19 +97,26 @@ public class Player_Controller : MonoBehaviour {
                 highscoreText.text = highscore.ToString("F0");
             }
 			player.SetActive (false);
+			Time.timeScale = 0;
             Debug.Log("Game Over");
         }
     }
     public void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Enemy") {
-            TakeDamage(10);
+            TakeDamage(100);
         }
         if (other.gameObject.tag == "Health") {
-            TakeDamage(-25);
+            TakeDamage(-50);
+			if (health > MaxHealth) {
+				health = MaxHealth;
+			}
         }
         if (other.gameObject.tag == "Fuel") {
             GiveFuel(100);
+			if (fuel > MaxFuel) {
+				fuel = MaxFuel;
+			}
         }
     }
     public void OnTriggerEnter(Collider other)
@@ -113,6 +130,19 @@ public class Player_Controller : MonoBehaviour {
     {
         Instantiate(projectile, gun.transform.position, gun.transform.rotation);
     }
+	public void FireMissle()
+	{
+		if (missleNo > 0) {
+			Enemies = GameObject.FindGameObjectsWithTag ("EnemyGroups");	
+			foreach (GameObject target in Enemies) {
+				GameObject.Destroy (target);
+			}
+			Instantiate (Missle, gun.transform.position, gun.transform.rotation);
+			fuel = MaxFuel;
+			Monster.transform.position = new Vector3 (-184.5f, 0.77f, 0f);
+			missleNo--;
+		}
+	}
     public void OnPointerDownUp()
     {
         movementDir = 1;
@@ -153,6 +183,7 @@ public class Player_Controller : MonoBehaviour {
 				highscoreText.text = highscore.ToString ("F0");
 			}
 			player.SetActive (false);
+			Time.timeScale = 0;
 			Debug.Log ("Game Over");
 		}
 	}

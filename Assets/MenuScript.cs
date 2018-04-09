@@ -27,11 +27,12 @@ public class MenuScript : MonoBehaviour {
 		Monster.transform.position = new Vector3 (-184.5f, 0.77f, 0f);
 		player_Values.fuel = player_Values.MaxFuel;
 		player_Values.health = player_Values.MaxHealth;
-		Enemies = GameObject.FindGameObjectsWithTag ("EnemyGroups");
+		Enemies = GameObject.FindGameObjectsWithTag ("EnemyGroups");	
 		foreach (GameObject target in Enemies) {
 			GameObject.Destroy (target);
 		}
 		Highscore.SetActive (false);
+		Time.timeScale = 1;
 
 	}
 }
