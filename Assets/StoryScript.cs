@@ -10,6 +10,7 @@ public class StoryScript : MonoBehaviour {
 	public Texture[] Textures;
 	public int i = 0;
 	public int health = 4;
+
 	// Use this for initialization
 	void Start () {
 		
