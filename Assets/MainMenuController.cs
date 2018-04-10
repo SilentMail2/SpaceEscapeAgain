@@ -17,4 +17,8 @@ public class MainMenuController : MonoBehaviour {
     {
         Application.LoadLevel("Level 1");
     }
+	public void StartStory()
+	{
+		Application.LoadLevel("Story");
+	}
 }

@@ -7,6 +7,7 @@ public class MenuScript : MonoBehaviour {
 	public GameObject Menu;
 	public GameObject Highscore;
 	public GameObject Monster;
+	public GameObject Add;
 	public GameObject[] Enemies;
 	private Player_Controller player_Values;
 	public float highScore;
@@ -34,5 +35,10 @@ public class MenuScript : MonoBehaviour {
 		Highscore.SetActive (false);
 		Time.timeScale = 1;
 
+	}
+	public void GainMissles()
+	{
+		player_Values.missleNo++;
+		Add.SetActive (true);
 	}
 }

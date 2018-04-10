@@ -30,6 +30,8 @@ public class Player_Controller : MonoBehaviour {
     public bool boostMode = false;
     public float boosttime;
 	public GameObject Menu;
+	public GameObject Story;
+	public StoryScript StoryValues;
 	public GameObject[] Enemies;
 	public MenuScript menu;
 	public ParticleSystem Missle;
@@ -38,6 +40,7 @@ public class Player_Controller : MonoBehaviour {
 	// Use this for initialization
     void Start() {
 		menu = Menu.GetComponent<MenuScript> ();
+		StoryValues = Story.GetComponent<StoryScript> ();
 		highscore = menu.highScore;
         gun = GameObject.FindGameObjectWithTag("Player Gun");
         PlayerBody = GetComponent<Rigidbody>();
@@ -119,6 +122,9 @@ public class Player_Controller : MonoBehaviour {
 				fuel = MaxFuel;
 			}
         }
+		if (other.gameObject.tag == "TheEnd") {
+			StoryValues.self.SetActive (true);
+		}
     }
     public void OnTriggerEnter(Collider other)
     {
